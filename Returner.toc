@@ -1,0 +1,9 @@
+## Interface: 120005
+## Title: Returner
+## Notes: Welcome back panel: shows what you missed in WoW while you were away. Auto-updated daily.
+## Version: 1.0.0
+## Author: ali
+## SavedVariables: ReturnerDB
+
+Data.lua
+Returner.lua

@@ -1,0 +1,95 @@
+name: auto-update news
+
+on:
+  schedule:
+    # Run daily at 06:00 UTC (slightly after Blizzard's typical NA news cadence)
+    - cron: "0 6 * * *"
+  workflow_dispatch: {}  # also allow manual trigger from the Actions tab
+
+permissions:
+  contents: write  # needed to commit Data.lua and push tags
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # Need full history so we can read the previous tag for version bumping
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install feedparser
+
+      - name: Regenerate Data.lua
+        run: python3 scripts/update_news.py
+
+      - name: Detect change
+        id: detect
+        run: |
+          if [ -f .update_marker ] && [ "$(cat .update_marker)" = "changed" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
+          rm -f .update_marker
+
+      - name: Compute next version
+        if: steps.detect.outputs.changed == 'true'
+        id: version
+        run: |
+          # Read last tag like vX.Y.Z, bump patch. If no tag exists, start at v1.0.1.
+          last_tag=$(git tag --list 'v*' --sort=-v:refname | head -n1)
+          if [ -z "$last_tag" ]; then
+            new_tag="v1.0.1"
+          else
+            base=${last_tag#v}
+            major=$(echo "$base" | cut -d. -f1)
+            minor=$(echo "$base" | cut -d. -f2)
+            patch=$(echo "$base" | cut -d. -f3)
+            patch=$((patch + 1))
+            new_tag="v${major}.${minor}.${patch}"
+          fi
+          echo "new_tag=$new_tag" >> "$GITHUB_OUTPUT"
+          echo "version=${new_tag#v}" >> "$GITHUB_OUTPUT"
+
+      - name: Update TOC version
+        if: steps.detect.outputs.changed == 'true'
+        run: |
+          sed -i -E "s/^## Version: .*/## Version: ${{ steps.version.outputs.version }}/" Returner.toc
+          cat Returner.toc | grep "^## Version"
+
+      - name: Prepend changelog entry
+        if: steps.detect.outputs.changed == 'true'
+        run: |
+          today=$(date -u +"%Y-%m-%d")
+          new_entry="## ${{ steps.version.outputs.version }} ($today)\n- Auto-updated news data from Blizzard WoW RSS feed\n\n"
+          # Insert after the "# Changelog" header
+          awk -v entry="$new_entry" 'NR==1 && /^# Changelog/ { print; print ""; printf "%s", entry; next } { print }' CHANGELOG.md > CHANGELOG.tmp
+          mv CHANGELOG.tmp CHANGELOG.md
+          head -10 CHANGELOG.md
+
+      - name: Commit and tag
+        if: steps.detect.outputs.changed == 'true'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Data.lua Returner.toc CHANGELOG.md
+          git commit -m "auto: refresh news data (${{ steps.version.outputs.new_tag }})"
+          git tag ${{ steps.version.outputs.new_tag }}
+          git push origin HEAD --tags
+
+      - name: Summary
+        run: |
+          if [ "${{ steps.detect.outputs.changed }}" = "true" ]; then
+            echo "Published ${{ steps.version.outputs.new_tag }}"
+          else
+            echo "No content changes today."
+          fi

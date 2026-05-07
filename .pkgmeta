@@ -1,0 +1,13 @@
+package-as: Returner
+
+license-output: LICENSE.txt
+
+manual-changelog:
+  filename: CHANGELOG.md
+  markup-type: markdown
+
+ignore:
+  - .github
+  - .gitignore
+  - scripts
+  - README.md
