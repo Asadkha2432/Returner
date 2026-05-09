@@ -12,3 +12,4 @@ ignore:
   - scripts
   - screenshots
   - README.md
+  - releases

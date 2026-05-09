@@ -315,11 +315,23 @@ SlashCmdList["RETURNER"] = function(msg)
         print("|cffffd200[Returner]|r read state cleared. Next /rt will show all items.")
     elseif cmd == "status" then
         local last = ReturnerDB.lastSeen
-        print(string.format("|cffffd200[Returner]|r threshold=%dd, enabled=%s, last seen=%s",
+        print(string.format("|cffffd200[Returner]|r threshold=%dd, enabled=%s, last seen=%s, seenUntil=%s",
             ReturnerDB.threshold,
             tostring(ReturnerDB.enabled),
-            last and formatDate(last) or "never"))
+            last and formatDate(last) or "never",
+            (ReturnerDB.seenItemsUntil and ReturnerDB.seenItemsUntil > 0) and formatDate(ReturnerDB.seenItemsUntil) or "0"))
+    elseif cmd == "simulate" then
+        local n = tonumber(arg)
+        if n and n >= 0 then
+            local lastSeen = time() - (n * 86400)
+            ReturnerDB.lastSeen = lastSeen
+            ReturnerDB.seenItemsUntil = 0
+            print(string.format("|cffffd200[Returner]|r simulating %d days away (lastSeen rewound).", n))
+            showPanel(n, lastSeen, time())
+        else
+            print("|cffffd200[Returner]|r usage: /rt simulate <days>")
+        end
     else
-        print("|cffffd200[Returner]|r commands: /rt | /rt threshold N | /rt on | /rt off | /rt reset | /rt status")
+        print("|cffffd200[Returner]|r commands: /rt | /rt threshold N | /rt on | /rt off | /rt reset | /rt status | /rt simulate N")
     end
 end
