@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.2 (2026-05-09)
+- Auto-updated news data from Blizzard WoW RSS feed
+
+
 ## 1.0.1 (2026-05-09)
 - add /rt simulate <days> command for testing the auto-popup behavior, plus seenUntil in /rt status output
 
