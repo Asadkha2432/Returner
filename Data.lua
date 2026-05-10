@@ -4,11 +4,25 @@
 
 Returner_Data = {
     metadata = {
-        generated_at = "2026-05-09T09:58:22Z",
+        generated_at = "2026-05-10T10:45:18Z",
         source       = "Blizzard WoW News RSS",
         count        = 40,
     },
     items = {
+        {
+            timestamp = 1778349600,
+            title     = "Enhanced Timers and Text-to-Speech for Mythic+ with EXBoss AddOn",
+            body      = "Track raid and dungeon mechanics more easily with the help of EXBoss, a boss mod AddOn with text-to-speech functionality, visual warnings, and more! Continue reading »",
+            url       = "https://www.wowhead.com/news=381547/enhanced-timers-and-text-to-speech-for-mythic-with-exboss-addon",
+            category  = "news",
+        },
+        {
+            timestamp = 1778335200,
+            title     = "Void Strikes Miss the Mark as a Leveling Event",
+            body      = "While Void Strikes provide virtually endless open-world content for players, Blizzard has missed the mark for leveling characters. Continue reading »",
+            url       = "https://www.wowhead.com/news=381546/void-strikes-miss-the-mark-as-a-leveling-event",
+            category  = "event",
+        },
         {
             timestamp = 1778292519,
             title     = "Diablo 4's Next Patch Fixes Massive Amounts of Bugs in Another Win for Lord of Hatred",
@@ -274,20 +288,6 @@ Returner_Data = {
             body      = "Originally scheduled to end at 8:00 AM PDT, NA maintenance has been extended an extra hour. Continue reading »",
             url       = "https://www.wowhead.com/news=381524/na-maintenance-extended-until-9-00-am-pdt",
             category  = "news",
-        },
-        {
-            timestamp = 1777989630,
-            title     = "Estimated Class Tuning for May 5th Hotfixes - Outlaw Rogue and Frost Mage Nerfed",
-            body      = "With class tuning on the weekly reset, many specs are getting some large tuning changes which will shake up the DPS Meta. Our class writers have given DPS estimations of the changes coming! Continue reading »",
-            url       = "https://www.wowhead.com/news=381518/estimated-class-tuning-for-may-5th-hotfixes-outlaw-rogue-and-frost-mage-nerfed",
-            category  = "hotfix",
-        },
-        {
-            timestamp = 1777982425,
-            title     = "Hints at Patch 12.0.7 Release Date on June 16th - Potentially Patch 12.1 in August",
-            body      = "Based on the schedule of upcoming events. Patch 12.0.7 is likely to release on June 16th. Patch 12.1 could also launch on August 25th based on similar data. Continue reading »",
-            url       = "https://www.wowhead.com/news=381500/hints-at-patch-12-0-7-release-date-on-june-16th-potentially-patch-12-1-in-august",
-            category  = "patch",
         },
     },
 }
